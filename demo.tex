@@ -1,0 +1,99 @@
+\documentclass[compress,8pt,t]{beamer}
+% compress 表示尽量压缩导航条
+% handout 取消叠层和符号条等动画效果，用于打印
+% trans 用于制作透明幻灯片
+% sectionpages 表示增加当前目录, 自定义
+% answerfasle 表示初始隐藏答案，自定义
+
+\usetheme{HTSlide}
+
+\usepackage[backend=bibtex,style=ieee,sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+\title{第一章\quad 函数与极限}
+\author{黄腾}
+\institute[北京科技大学 学业中心]{北京科技大学\\ 学生学习与发展指导中心}
+\date{\today}
+\email{htharodht@Gmail.com}
+\logo{\includegraphics[width=1cm]{logo}}
+
+\begin{document}
+
+% \begin{frame}[plain]
+%   \titlepage
+% \end{frame}
+\maketitle
+
+\section*{目录}
+\begin{frame}
+  \frametitle{\secname}
+  \tableofcontents
+\end{frame}
+
+\section{函数的概念与复合函数解析式及性质的确定}
+\begin{frame}[t]{\secname}
+  \OCGExample{%
+    2015-2016-1-期末-选择题-10
+  }{%
+    若函数$f(x)=\max \{|x-2|,\sqrt{x}\}$，则$f(x)$的最小值等于
+    \pickout{B}
+    \options{2}
+      {1}
+      {$\dfrac{1}{2}$}
+      {0}
+  }{%
+    B.
+  }{%
+    $f\left( x \right)=\begin{cases}
+    2-x, & x\in \left( -\infty ,1 \right) \\
+    \sqrt{x}, & x\in \left[ 1,4 \right] \\
+    x-2, & x\in \left( 4,+\infty  \right) \\
+    \end{cases}$，画图即可.
+  }
+\end{frame}
+
+\section{研究背景}
+
+\begin{frame}
+  \frametitle{\secname~ }
+  \begin{block}{液体燃料燃烧}
+    液体燃料在工业与民航中有着广泛的应用。
+  \end{block}
+  \begin{block}{低污染燃烧技术}
+    国际民航组织对航空发动机排放的要求越来越高，研究低污染燃烧技术是促进我国民航事业发展的关键。
+  \end{block}
+  \begin{block}{数值模拟}
+    计算流体力学的发展和广泛应用。
+  \end{block}
+\end{frame}
+\section{研究内容}
+\section{湍流两相燃烧的数学模型}
+\begin{frame}{亚网格湍流模型}
+  \begin{alertblock}{Smagorinsky-Lilly模型}
+    基于涡粘假设
+  \end{alertblock}
+  \begin{exampleblock}{动态亚网格模型\footfullcite{germano1991dynamic}}
+    通过可解尺度涡旋的局部特性来确定小尺度涡旋的模型系数
+  \end{exampleblock}
+\end{frame}
+\begin{frame}{湍流燃烧模型}
+稳态火焰面模型
+\end{frame}
+\begin{frame}
+  \frametitle{液相亚网格随机模型}
+  \begin{block}{运动方程}
+    $$dx_p=U_pdt$$
+  \[dU_p=\tau_p^{-1}( {\overline U}_g-U_p)dt+(C_0\frac{k_{sgs}}{\tau_t})^{1/2}dW_t\]
+  \end{block}
+\end{frame}
+\section{数值求解方法}
+\section{结果分析}
+\section{Q\&A}
+\begin{frame}{\secname~ }
+  \begin{center}
+    \huge {\kaishu 结束，谢谢}
+
+    \huge \textit {Q\&A}
+  \end{center}
+\end{frame}
+\end{document}

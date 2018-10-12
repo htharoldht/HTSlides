@@ -1,0 +1,523 @@
+\ProvidesPackage{HTSlide}
+
+\newif\if@doSectionPage
+\@doSectionPagefalse
+\DeclareOption{sectionpages}{\@doSectionPagetrue}
+\newif\ifBookanswer
+\Bookanswertrue
+\DeclareOption{answerfalse}{\Bookanswerfalse}
+\ProcessOptions
+\beamer@compresstrue
+
+\RequirePackage[UTF8]{ctex}
+\RequirePackage{xpatch}
+
+\graphicspath{{figures/}{figure/}{pictures/}{picture/}{fig/}{figs/}{image/}{images/}}
+
+\setCJKmainfont[BoldFont={Noto Serif CJK SC Bold},ItalicFont={AR PL UKai HK}]{Noto Serif CJK SC}
+\setCJKsansfont[BoldFont={Noto Sans S Chinese Medium}]{Noto Sans S Chinese DemiLight}
+\setCJKmonofont{WenQuanYi Micro Hei Mono Light}
+\usefonttheme[onlymath]{serif}
+\setbeamerfont{footnote}{size=\tiny}
+
+%---------------------------------------------------------------------
+% Caption
+%---------------------------------------------------------------------
+\RequirePackage{caption}
+\RequirePackage[font=footnotesize]{subcaption}
+\DeclareGraphicsExtensions{.pdf,.eps,.jpg,.png}
+\graphicspath{{figures/}{figure/}{pictures/}{picture/}{fig/}{figs/}{image/}{images/}}
+\captionsetup[figure]{font=footnotesize,labelfont=footnotesize}
+\setbeamertemplate{caption label separator}{: }
+\setbeamertemplate{caption}[numbered]{}
+
+\mode<presentation>
+
+%---------------------------------------------------------------------
+% CurrentContent
+%---------------------------------------------------------------------
+\if@doSectionPage
+  \AtBeginSection[]{
+    \begingroup
+      \begin{frame}{\contentsname}
+        \tableofcontents[current]
+        \addtocounter{framenumber}{-1}
+      \end{frame}
+    \endgroup
+  }
+\fi
+
+%---------------------------------------------------------------------
+% TOC
+%---------------------------------------------------------------------
+\useoutertheme[shadow,footline=authorinstitutetitle,subsection=false]{miniframes}
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[square]
+
+%---------------------------------------------------------------------
+% Custom commands
+%---------------------------------------------------------------------
+\newcommand{\rightTextArrow}{$\rightarrow$}
+
+%---------------------------------------------------------------------
+% Itemize
+%---------------------------------------------------------------------
+\setbeamertemplate{itemize item}{\rightTextArrow}
+\setbeamertemplate{itemize subitem}{\rightTextArrow}
+\setbeamertemplate{itemize subsubitem}{\rightTextArrow}
+
+%---------------------------------------------------------------------
+% AutorefName
+%---------------------------------------------------------------------
+\def\equationautorefname~#1\null{公式(#1)\null~}%
+\def\footnoteautorefname{脚注}%
+\def\itemautorefname~#1\null{第#1项\null}%
+\def\figureautorefname~#1\null{图#1\null~}%
+\def\tableautorefname~#1\null{表#1\null}%
+\def\partautorefname~#1\null{第#1部分\null}%
+\def\appendixautorefname{附录}%
+\def\chapterautorefname~#1\null{第#1章\null}%
+\def\sectionautorefname~#1\null{第#1节\null}%
+\def\subsectionautorefname~#1\null{第#1小节\null}%
+\def\subsubsectionautorefname~#1\null{第#1小小节\null}%
+\def\paragraphautorefname~#1\null{第#1段\null}%
+\def\subparagraphautorefname~#1\null{第#1小段\null}%
+\def\theoremautorefname{定理}%
+\def\pageautorefname~#1\null{第~#1~页\null}%
+
+
+%---------------------------------------------------------------------
+% Colors
+%---------------------------------------------------------------------
+% Primary presentation colors
+\definecolor{GreyDark}{RGB}{70,65,60}
+\definecolor{BlueDark}{rgb}{0.0,0.415,0.682}
+\definecolor{BlueLight}{RGB}{70,200,255}
+\definecolor{GreenLight}{RGB}{180,220,0}
+% Palettes
+\setbeamercolor{LowerColor}{fg=GreyDark,bg=BlueLight}
+\setbeamercolor{UpperColor}{fg=GreyDark,bg=GreenLight}
+\setbeamercolor{frametitle}{bg=BlueDark,fg=white}
+\setbeamercolor{fine separation line}{}
+\setbeamercolor{item projected}{fg=black}
+\setbeamercolor{palette sidebar primary}{use=normal text,fg=normal text.fg}
+\setbeamercolor{palette sidebar quaternary}{use=structure,fg=structure.fg}
+\setbeamercolor{palette sidebar secondary}{use=structure,fg=structure.fg}
+\setbeamercolor{palette sidebar tertiary}{use=normal text,fg=normal text.fg}
+\setbeamercolor{section in sidebar}{fg=brown}
+\setbeamercolor{section in sidebar shaded}{fg= grey}
+\setbeamercolor{separation line}{}
+\setbeamercolor{sidebar}{parent=LowerColor}
+\setbeamercolor{structure}{fg=BlueDark}
+\setbeamercolor{subsection in sidebar}{fg=brown}
+\setbeamercolor{subsection in sidebar shaded}{fg=grey}
+
+%---------------------------------------------------------------------
+% Background
+%---------------------------------------------------------------------
+% Define a macro to draw the TUT gear
+\newcommand\tutgear[2][fill=black]{%
+\begin{tikzpicture}[y = #2,x = #2]
+\path[nonzero rule, inner sep=0pt, outer sep=0pt, #1]%
+  (-0.03871,  0.26461) .. controls (-0.13550,  0.25062) and (-0.21553,  0.18492) .. (-0.24979,  0.09646) --
+  ( 0.24980,  0.09646) .. controls ( 0.21579,  0.18423) and ( 0.13675,  0.24959) .. ( 0.04099,  0.26428) --
+  ( 0.04093,  0.49830) -- ( 0.09697,  0.49061) --
+  ( 0.10735,  0.37796) .. controls ( 0.13032,  0.37146) and ( 0.15242,  0.36295) .. ( 0.17347,  0.35260) --
+  ( 0.25668,  0.42940) -- ( 0.30253,  0.39851) --
+  ( 0.26236,  0.29263) .. controls ( 0.28336,  0.27384) and ( 0.30231,  0.25284) .. ( 0.31887,  0.22998) --
+  ( 0.42851,  0.25879) -- ( 0.45447,  0.21004) --
+  ( 0.36929,  0.13544) .. controls ( 0.37889,  0.10934) and ( 0.38581,  0.08194) .. ( 0.38968,  0.05358) --
+  ( 0.50000,  0.02761) -- ( 0.50000, -0.02761) --
+  ( 0.38968, -0.05357) .. controls ( 0.38581, -0.08194) and ( 0.37889, -0.10934) .. ( 0.36929, -0.13544) --
+  ( 0.45447, -0.21002) -- ( 0.42851, -0.25880) --
+  ( 0.31887, -0.22999) .. controls ( 0.30231, -0.25284) and ( 0.28336, -0.27383) .. ( 0.26236, -0.29261) --
+  ( 0.30253, -0.39852) -- ( 0.25668, -0.42940) --
+  ( 0.17347, -0.35260) .. controls ( 0.15242, -0.36295) and ( 0.13032, -0.37147) .. ( 0.10735, -0.37796) --
+  ( 0.09697, -0.49061) -- ( 0.04093, -0.49830) --
+  ( 0.04102, -0.26426) .. controls ( 0.13907, -0.24921) and ( 0.21958, -0.18104) .. ( 0.25217, -0.09010) --
+  (-0.25217, -0.09010) .. controls (-0.21934, -0.18175) and (-0.13784, -0.25027) .. (-0.03875, -0.26461) --
+  (-0.03835, -0.49830) -- (-0.09697, -0.49061) --
+  (-0.10736, -0.37796) .. controls (-0.13032, -0.37146) and (-0.15243, -0.36295) .. (-0.17347, -0.35259) --
+  (-0.25669, -0.42940) -- (-0.30253, -0.39852) --
+  (-0.26237, -0.29261) .. controls (-0.28337, -0.27383) and (-0.30232, -0.25284) .. (-0.31887, -0.22999) --
+  (-0.42850, -0.25880) -- (-0.45447, -0.21002) --
+  (-0.36931, -0.13544) .. controls (-0.37891, -0.10932) and (-0.38580, -0.08194) .. (-0.38969, -0.05357) --
+  (-0.50000, -0.02761) -- (-0.50000,  0.02761) --
+  (-0.38969,  0.05358) .. controls (-0.38580,  0.08194) and (-0.37891,  0.10933) .. (-0.36931,  0.13544) --
+  (-0.45447,  0.21004) -- (-0.42850,  0.25879) --
+  (-0.31887,  0.22998) .. controls (-0.30232,  0.25284) and (-0.28337,  0.27384) .. (-0.26237,  0.29263) --
+  (-0.30253,  0.39851) -- (-0.25669,  0.42940) --
+  (-0.17347,  0.35260) .. controls (-0.15243,  0.36295) and (-0.13032,  0.37146) .. (-0.10736,  0.37796) --
+  (-0.09697,  0.49061) -- (-0.03835,  0.49830) -- (-0.03871,  0.26461) -- cycle;
+\end{tikzpicture}}
+
+% Title page background
+\newcommand\TitleBgImage{%
+\begin{tikzpicture}[overlay,remember picture,inner sep=0pt,outer sep=0pt]
+\usebeamercolor{UpperColor}
+\path[fill=bg,nonzero rule]
+    ([yshift=0.45\paperheight] current page.south west) -- +(0,0.47\paperheight) -- +(0.0626\paperheight,0.4614\paperheight) -- +(0.0626\paperheight,0) -- cycle;
+\usebeamercolor{LowerColor}
+\path[fill=bg,nonzero rule]
+    (current page.south west) -- ++(0,0.5544\paperheight) -- +(\paperwidth,0) -- (current page.south east) -- cycle;
+% gear-half
+\node at ([xshift=-0.047\paperheight]current page.south west) [anchor=center] {\tutgear[fill=white]{1.13\paperheight}};
+% additional logo if specified by user
+\node at ([shift={(-0.0313\paperheight,-0.0313\paperheight)}] current page.north east) [anchor=north east] {\insertlogo};
+\end{tikzpicture}
+}
+
+% Frame background
+\newcommand\FrameBgImage{%
+\begin{tikzpicture}[overlay,remember picture]
+\usebeamercolor{UpperColor}
+\path[fill=bg,nonzero rule]
+    ([yshift=0.45\paperheight] current page.south west) -- +(0,0.39\paperheight) -- +(0.0626\paperheight,0.3814\paperheight) -- +(0.0626\paperheight,0) -- cycle;
+\usebeamercolor{LowerColor}
+\path[fill=bg,nonzero rule]
+    (current page.south west) -- +(0,0.47\paperheight) -- +(0.0626\paperheight,0.4614\paperheight) -- +(0.0626\paperheight,0) -- cycle;
+\end{tikzpicture}
+}
+
+\newcommand\BgImage{\FrameBgImage}
+\usebackgroundtemplate{\BgImage}
+
+%---------------------------------------------------------------------
+% Titlepage
+%---------------------------------------------------------------------
+% Email field
+\newtoks\email
+
+\setbeamercolor{normal text}{fg=GreyDark}
+
+\setbeamercolor{title}{parent=normal text}
+\setbeamercolor{subtitle}{parent=normal text}
+\setbeamercolor{date}{parent=UpperColor}
+\setbeamercolor{author}{parent=UpperColor}
+\setbeamercolor{email}{parent=UpperColor}
+\setbeamercolor{institute}{parent=UpperColor}
+
+\setbeamerfont{title}{size=\fontsize{20.74}{20.74}}
+\setbeamerfont{subtitle}{size=\fontsize{12}{14}}
+\setbeamerfont{date}{size=\fontsize{8}{10}}
+\setbeamerfont{author}{size=\fontsize{12}{15}}
+\setbeamerfont{institute}{size=\fontsize{8}{10}}
+\setbeamerfont{email}{size=\fontsize{8}{10}}
+
+% Titlepage structure
+\def\maketitle{\ifbeamer@inframe\titlepage\else%
+\begingroup\frame[plain]{\titlepage}
+\endgroup\fi}
+\def\titlepage{\usebeamertemplate{title page}}
+\setbeamertemplate{title page}
+{
+  {\TitleBgImage}
+  \begin{minipage}[t][.3\paperheight][b]{\textwidth}
+  \centering
+  \ifx\inserttitle\@empty%
+  \else%
+    {\usebeamerfont{title}\usebeamercolor[fg]{title}\MakeUppercase{\inserttitle}\par}%
+  \fi%
+  \ifx\insertsubtitle\@empty%
+  \else%
+    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+  \fi%
+  \end{minipage}
+  \begin{minipage}[b][.45\paperheight]{\textwidth}
+  \centering
+  \ifx\insertauthor\@empty%
+  \else%
+    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor\par}%
+  \fi%
+  \ifx\the\email\@empty%
+  \else%
+    \vspace*{5mm}
+    {\usebeamerfont{email}\usebeamercolor[fg]{email}\href{mailto:\the\email}{\the\email}\par}
+  \fi%
+  \ifx\insertinstitute\@empty%
+  \else%
+    \vspace*{5mm}
+    {\usebeamerfont{institute}\usebeamercolor[fg]{institute}\insertinstitute\par}%
+  \fi
+  \end{minipage}
+  \begin{minipage}[c][.18\paperheight]{\textwidth}
+  \centering
+  \ifx\insertdate\@empty%
+  \else%
+    {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate\par}%
+  \fi%
+  \end{minipage}
+}
+
+\useinnertheme{rectangles}
+\usecolortheme{whale}
+\usecolortheme{orchid}
+
+\setbeamerfont{frametitle}{size=\large}
+\setbeamertemplate{navigation symbols}{}
+% \setbeamertemplate{sidebar right}{default}{} % remove logo from its default position on right sidebar
+\usebackgroundtemplate{\FrameBgImage}
+
+%---------------------------------------------------------------------
+% Blocks
+%---------------------------------------------------------------------
+\setbeamerfont{block title}{size=\zihao{5}}
+\setbeamerfont{block body}{size=\zihao{-5}}
+\setbeamertemplate{block begin}
+{
+  \par\vskip\medskipamount%
+  \begin{beamercolorbox}[sep=.5ex,dp=0.6ex,leftskip=0.5ex,rightskip=0.5ex]{block title}
+    \usebeamerfont*{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  {\parskip0pt\par}%
+  {\nointerlineskip\vskip-0.5pt}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[sep=.5ex,dp=0.6ex,leftskip=0.5ex,rightskip=0.5ex,vmode]{block body}%
+}
+\setbeamertemplate{block end}
+{\end{beamercolorbox}\vskip\smallskipamount}
+
+\setbeamertemplate{block alerted begin}
+{
+  \setbeamercolor{local structure}{use=block title alerted,fg=block title alerted.bg}
+  \par\vskip\medskipamount%
+  \begin{beamercolorbox}[sep=.5ex,dp=0.6ex,leftskip=0.5ex,rightskip=0.5ex]{block title alerted}
+    \usebeamerfont*{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  {\parskip0pt\par}%
+  {\nointerlineskip\vskip-0.5pt}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[sep=.5ex,dp=0.6ex,leftskip=0.5ex,rightskip=0.5ex,vmode]{block body alerted}%
+}
+\setbeamertemplate{block alerted end}
+{\end{beamercolorbox}\vskip\smallskipamount}
+
+\setbeamertemplate{block example begin}
+{
+  \par\vskip\medskipamount%
+  \begin{beamercolorbox}[sep=.5ex,dp=0.6ex,leftskip=0.5ex,rightskip=0.5ex]{block title example}
+    \usebeamerfont*{block title}\insertblocktitle%
+  \end{beamercolorbox}%
+  {\parskip0pt\par}%
+  {\nointerlineskip\vskip-0.5pt}%
+  \usebeamerfont{block body}%
+  \begin{beamercolorbox}[sep=.5ex,dp=0.6ex,leftskip=0.5ex,rightskip=0.5ex,vmode]{block body example}%
+}
+\setbeamertemplate{block example end}
+{\end{beamercolorbox}\vskip\smallskipamount}
+
+%---------------------------------------------------------------------
+% Footline
+%---------------------------------------------------------------------
+\newcommand{\frameofframes}{/}
+\newcommand{\setframeofframes}[1]{\renewcommand{\frameofframes}{#1}}
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[colsep=1.5pt]{upper separation line foot}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+    leftskip=.3cm,rightskip=.3cm plus1fil]{author in head/foot}%
+    \leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}%
+    \hfill%
+    {\usebeamerfont{institute in head/foot}\usebeamercolor[fg]{institute in head/foot}\insertshortinstitute}%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+    leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+    {\usebeamerfont{title in head/foot}\insertshorttitle}%
+    \hfill%
+    {\usebeamerfont{frame number}\usebeamercolor[fg]{frame number}\insertframenumber~\frameofframes~\inserttotalframenumber}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}
+  \end{beamercolorbox}
+}
+
+%---------------------------------------------------------------------
+% OCGX2
+%---------------------------------------------------------------------
+\RequirePackage{ocgx2,mdframed,tikz}
+
+\newcounter{answer}
+\ifBookanswer{
+  \setcounter{answer}{1}
+}\else{
+  \setcounter{answer}{0}
+}\fi
+
+\newcommand{\answer}[1]{
+  \begin{ocg}{}{Exam\thesection\theMyExample}{\theanswer}
+    #1
+  \end{ocg}
+  % \ifBookanswer{#1}\else\hphantom{#1}\fi
+}
+\newcommand{\fillin}[1]{
+  \underline{
+    \begin{ocg}{}{Exam\thesection\theMyExample}{\theanswer}
+      #1
+    \end{ocg}
+    % \hspace{1em}\answer{#1}\hspace{1em}
+  }
+}
+\newcommand{\pickout}[1]{
+  \hfill(\makebox[2em]{\answer{#1}})
+}
+\newcommand{\pickin}[1]{
+  (\makebox[2em]{\answer{#1}})
+}
+
+\newcommand{\ignorepars}{\@ifnextchar\par{\expandafter\ignorepars\@gobble}{}}
+
+\newcounter{MyExample}[section]
+\newenvironment{MyExample}[1][]{%
+ \stepcounter{MyExample}%
+  \ifstrempty{#1}%
+  {\mdfsetup{%
+    frametitle={%
+       \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]{
+        \ifBookanswer
+          \switchocg{Exam\thesection\theMyExample}{\strut \heiti 例\thesection-\theMyExample}
+        \else
+          \strut \heiti 例\thesection-\theMyExample
+        \fi
+        };
+      }
+    }
+  }%
+  {\mdfsetup{%
+     frametitle={%
+       \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]{
+        \ifBookanswer
+          \switchocg{Exam\thesection\theMyExample}{\strut \heiti 例\thesection-\theMyExample~(\ignorespaces~#1)}
+        \else
+          \strut \heiti 例\thesection-\theMyExample~(\ignorespaces~#1)
+        \fi
+        };
+      }
+    }%
+   }%
+   \mdfsetup{innertopmargin=10pt,linecolor=blue!20,%
+             linewidth=2pt,topline=true,
+             frametitleaboveskip=\dimexpr-\ht\strutbox\relax,}
+   \begin{mdframed}[]\relax%
+   }{\end{mdframed}}
+
+\newcounter{MyExercise}[section]
+\newenvironment{MyExercise}[1][]{%
+ \stepcounter{MyExercise}%
+  \ifstrempty{#1}%
+  {\mdfsetup{%
+    frametitle={%
+       \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]{
+        \ifBookanswer
+          \switchocg{Exer\thesection\theMyExercise}{\strut \heiti 习题\thesection-\theMyExercise}
+        \else
+          \strut \heiti 习题\thesection-\theMyExercise
+        \fi
+        };
+      }
+    }
+  }%
+  {\mdfsetup{%
+     frametitle={%
+       \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]{
+        \ifBookanswer
+          \switchocg{Exer\thesection\theMyExercise}{\strut \heiti 习题\thesection-\theMyExercise~(\ignorespaces~#1)}
+        \else
+          \strut \heiti 习题\thesection-\theMyExercise~(\ignorespaces~#1)
+        \fi
+        };
+      }
+    }%
+   }%
+   \mdfsetup{innertopmargin=10pt,linecolor=blue!20,%
+             linewidth=2pt,topline=true,
+             frametitleaboveskip=\dimexpr-\ht\strutbox\relax,}
+   \begin{mdframed}[]\relax%
+   }{\end{mdframed}}
+
+
+\newlength{\xxla}
+\newlength{\xxlb}
+\newlength{\xxlc}
+\newlength{\xxld}
+\newlength{\lhalf}
+\newlength{\lquarter}
+\newlength{\lmax}
+
+\newcommand{\options}[4]{
+  \par
+  \settowidth{\xxla}{(A)~#1~~~}
+  \settowidth{\xxlb}{(B)~#2~~~}
+  \settowidth{\xxlc}{(C)~#3~~~}
+  \settowidth{\xxld}{(D)~#4~~~}
+
+  \ifthenelse{\lengthtest{\xxla>\xxlb}}{\setlength{\lmax}{\xxla}}{\setlength{\lmax}{\xxlb}}
+  \ifthenelse{\lengthtest{\xxlc>\lmax}}{\setlength{\lmax}{\xxlc}}{}
+  \ifthenelse{\lengthtest{\xxld>\lmax}}{\setlength{\lmax}{\xxld}}{}
+  \setlength{\lhalf}{0.5\linewidth}
+  \setlength{\lquarter}{0.25\linewidth}
+  \ifthenelse{\lengthtest{\lmax>\lhalf}}
+  {
+    \begin{enumerate}[label=(\Alph*),parsep=0ex,itemsep=0ex,leftmargin=2em, topsep=0ex]
+      \item #1
+      \item #2
+      \item #3
+      \item #4
+    \end{enumerate}
+    \ignorepars\ignorespaces
+  }
+  {
+      \ifthenelse{\lengthtest{\lmax>\lquarter}}
+      {
+        \makebox[\lhalf][l]{(A)~#1~~~}%
+        \makebox[\lhalf][l]{(B)~#2~~~}%
+
+        \makebox[\lhalf][l]{(C)~#3~~~}%
+        \makebox[\lhalf][l]{(D)~#4~~~}%
+        \ignorepars\ignorespaces
+      }
+      {
+        \makebox[\lquarter][l]{(A)~#1~~~}%
+        \makebox[\lquarter][l]{(B)~#2~~~}%
+        \makebox[\lquarter][l]{(C)~#3~~~}%
+        \makebox[\lquarter][l]{(D)~#4~~~}%
+        \ignorepars\ignorespaces
+      }
+  }
+}
+
+\newcommand{\OCGExample}[4]{
+  \begin{MyExample}[#1]
+    #2
+  \end{MyExample}
+  \smallskip
+  \ifBookanswer
+    \begin{ocg}{}{Exam\thesection\theMyExample}{\theanswer}
+      {\heiti 答案}\quad%
+      #3
+
+      {\heiti 解析}\quad%
+      #4
+    \end{ocg}
+  \else\fi
+}
+\newcommand{\OCGExercise}[4]{
+  \begin{MyExercise}[#1]
+    #2
+  \end{MyExercise}
+  \smallskip
+  \ifBookanswer
+    \begin{ocg}{}{Exer\thesection\theMyExercise}{\theanswer}
+      {\heiti 答案}\quad%
+      #3
+
+      {\heiti 解析}\quad%
+      #4
+    \end{ocg}
+  \else\fi
+}
+
+\mode
+<all>
