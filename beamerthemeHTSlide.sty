@@ -9,8 +9,11 @@
 \ProcessOptions
 \beamer@compresstrue
 
+\mode<presentation>
+
 \RequirePackage[UTF8]{ctex}
-\RequirePackage{xpatch}
+\RequirePackage{xpatch,booktabs,pifont}
+\RequirePackage[T1]{fontenc}
 
 \graphicspath{{figures/}{figure/}{pictures/}{picture/}{fig/}{figs/}{image/}{images/}}
 
@@ -31,8 +34,6 @@
 \setbeamertemplate{caption label separator}{: }
 \setbeamertemplate{caption}[numbered]{}
 
-\mode<presentation>
-
 %---------------------------------------------------------------------
 % CurrentContent
 %---------------------------------------------------------------------
@@ -40,7 +41,15 @@
   \AtBeginSection[]{
     \begingroup
       \begin{frame}{\contentsname}
-        \tableofcontents[current]
+        \tableofcontents[currentsection]
+        \addtocounter{framenumber}{-1}
+      \end{frame}
+    \endgroup
+  }
+  \AtBeginSubsection[]{
+    \begingroup
+      \begin{frame}{\contentsname}
+        \tableofcontents[currentsection,currentsubsection]
         \addtocounter{framenumber}{-1}
       \end{frame}
     \endgroup
@@ -57,7 +66,7 @@
 %---------------------------------------------------------------------
 % Custom commands
 %---------------------------------------------------------------------
-\newcommand{\rightTextArrow}{$\rightarrow$}
+\newcommand{\rightTextArrow}{\textcolor{BlueLight}{$\rightarrow$}}
 
 %---------------------------------------------------------------------
 % Itemize
@@ -324,6 +333,8 @@
     leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
     {\usebeamerfont{title in head/foot}\insertshorttitle}%
     \hfill%
+    \insertdate
+    \hfill%
     {\usebeamerfont{frame number}\usebeamercolor[fg]{frame number}\insertframenumber~\frameofframes~\inserttotalframenumber}
   \end{beamercolorbox}%
   \begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}
@@ -333,7 +344,7 @@
 %---------------------------------------------------------------------
 % OCGX2
 %---------------------------------------------------------------------
-\RequirePackage{ocgx2,mdframed,tikz}
+\RequirePackage{ocgx2,mdframed,tikz,ifthen}
 
 \newcounter{answer}
 \ifBookanswer{
@@ -373,11 +384,7 @@
     frametitle={%
        \tikz[baseline=(current bounding box.east),outer sep=0pt]
         \node[anchor=east,rectangle,fill=blue!20]{
-        \ifBookanswer
           \switchocg{Exam\thesection\theMyExample}{\strut \heiti 例\thesection-\theMyExample}
-        \else
-          \strut \heiti 例\thesection-\theMyExample
-        \fi
         };
       }
     }
@@ -386,11 +393,7 @@
      frametitle={%
        \tikz[baseline=(current bounding box.east),outer sep=0pt]
         \node[anchor=east,rectangle,fill=blue!20]{
-        \ifBookanswer
           \switchocg{Exam\thesection\theMyExample}{\strut \heiti 例\thesection-\theMyExample~(\ignorespaces~#1)}
-        \else
-          \strut \heiti 例\thesection-\theMyExample~(\ignorespaces~#1)
-        \fi
         };
       }
     }%
@@ -409,11 +412,7 @@
     frametitle={%
        \tikz[baseline=(current bounding box.east),outer sep=0pt]
         \node[anchor=east,rectangle,fill=blue!20]{
-        \ifBookanswer
           \switchocg{Exer\thesection\theMyExercise}{\strut \heiti 习题\thesection-\theMyExercise}
-        \else
-          \strut \heiti 习题\thesection-\theMyExercise
-        \fi
         };
       }
     }
@@ -422,11 +421,7 @@
      frametitle={%
        \tikz[baseline=(current bounding box.east),outer sep=0pt]
         \node[anchor=east,rectangle,fill=blue!20]{
-        \ifBookanswer
           \switchocg{Exer\thesection\theMyExercise}{\strut \heiti 习题\thesection-\theMyExercise~(\ignorespaces~#1)}
-        \else
-          \strut \heiti 习题\thesection-\theMyExercise~(\ignorespaces~#1)
-        \fi
         };
       }
     }%
@@ -493,31 +488,48 @@
     #2
   \end{MyExample}
   \smallskip
-  \ifBookanswer
     \begin{ocg}{}{Exam\thesection\theMyExample}{\theanswer}
-      {\heiti 答案}\quad%
-      #3
+      \ifstrempty{#3}{}{%
+        {\heiti 答案}\quad #3%
+        \ifstrempty{#4}{\hfill\ensuremath{\square}}{}
+      }
 
-      {\heiti 解析}\quad%
-      #4
+      \ifstrempty{#4}{}{%
+        {\heiti 解析}\quad #4%
+        \hfill\ensuremath{\square}
+      }
     \end{ocg}
-  \else\fi
 }
 \newcommand{\OCGExercise}[4]{
   \begin{MyExercise}[#1]
     #2
   \end{MyExercise}
   \smallskip
-  \ifBookanswer
     \begin{ocg}{}{Exer\thesection\theMyExercise}{\theanswer}
-      {\heiti 答案}\quad%
-      #3
+      \ifstrempty{#3}{}{%
+        {\heiti 答案}\quad #3%
+        \ifstrempty{#4}{\hfill\ensuremath{\square}}{}
+      }
 
-      {\heiti 解析}\quad%
-      #4
+      \ifstrempty{#4}{}{%
+        {\heiti 解析}\quad #4%
+        \hfill\ensuremath{\square}
+      }
     \end{ocg}
-  \else\fi
 }
+
+\DeclareMathOperator{\rd}{\mathop{}\!\mathrm{d}}
+\DeclareMathOperator{\re}{\operatorname{e}}
+\DeclareMathOperator{\sgn}{\operatorname{sgn}}
+\DeclareMathOperator{\grad}{\operatorname{grad}}
+\DeclareMathOperator{\ri}{\operatorname{i}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\renewcommand{\le}{\leqslant}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\geq}{\geqslant}
+
+\newcommand{\underspace}[1]{\underline{\hspace*{#1}}}
 
 \mode
 <all>
